@@ -14,6 +14,9 @@
       "style": true
     }
   ]]],
+  "ignore": [
+    './src/lib/mui/js'
+  ],
   "env": {
     "test": {
       "presets": ["env", "stage-2"],

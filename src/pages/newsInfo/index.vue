@@ -73,6 +73,10 @@ export default {
             img{
                 width: 100%;
             }
+            p {
+                text-indent: 2em;
+                color: #000;
+            }
         }
     }
 </style>
