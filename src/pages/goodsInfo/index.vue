@@ -1,6 +1,6 @@
 <template>
     <div class="goods-info-container">
-        <transition
+        <transition name="ball"
             @before-enter="beforeEnter"
             @enter="enter"
             @after-enter="afterEnter"
@@ -23,11 +23,12 @@
                     </div>
                     <div class="number">
                         <span>购买数量：</span>
-                        <div class="mui-numbox" data-numbox-min='1' data-numbox-max='9'>
-                            <button class="mui-btn mui-btn-numbox-minus" type="button" @click="subNum">-</button>
+                        <!-- <div class="mui-numbox" data-numbox-min='1' data-numbox-max='9'>
+                            <button class="mui-btn mui-btn-numbox-minus" type="button" @click="number--">-</button>
                             <input id="test" class="mui-input-numbox" type="number" v-model="number" />
-                            <button class="mui-btn mui-btn-numbox-plus" type="button" @click="addNum">+</button>
-                        </div>
+                            <button class="mui-btn mui-btn-numbox-plus" type="button" @click="number++">+</button>
+                        </div> -->
+                        <numbox @getcount="getSelectedCount" :MaxNum="info.stock_quantity"></numbox>
                     </div>
                     <mt-button type="danger" size="small">立即购买</mt-button>
                     <mt-button type="primary" size="small" @click="addToShopCar">加入购物车</mt-button>
@@ -55,6 +56,7 @@
 
 <script>
 import swiper from '../../components/swiper'
+import numbox from '../../components/numbox'
 export default {
     data(){
         return {
@@ -62,7 +64,7 @@ export default {
             ThumImages:[],
             info:[],
             ballFlag:false,
-            number:1
+            selectedCount:1
         }
     },
     created(){
@@ -98,12 +100,6 @@ export default {
         goComment(id){
             this.$router.push({name:"goodsComment",params:{id}})
         },
-        subNum(){
-            if(this.number>1) this.number--   
-        },
-        addNum(){
-            if(this.number<10) this.number++
-        },
         addToShopCar(){
             this.ballFlag = !this.ballFlag
         },
@@ -120,15 +116,20 @@ export default {
             const ballPositionX = badgePosition.left - ballPosition.left;
             const ballPositionY = badgePosition.top - ballPosition.top;
             el.style.transform= `translate(${ballPositionX}px,${ballPositionY}px)`;
-            el.style.transition="all 0.8s cubic-bezier(.92,.01,.27,.86)";
-            // done();
+            el.style.transition="all .6s cubic-bezier(.92,.01,.27,.86)";
+            done();
         },
         afterEnter(el){
             this.ballFlag = !this.ballFlag   
+        },
+        getSelectedCount(count){
+            this.selectedCount = count
+            // console.log("父组件拿到的数量值为："+this.selectedCount)
         }
-    },
+    },   
     components:{
-        swiper
+        swiper,
+        numbox
     }
 }
 </script>
